@@ -37,7 +37,7 @@ const browsers = [
       await browser.url('https://example.com');
       const title = await browser.getTitle();
       console.log(`${b.name} page title: ${title}`);
-      if (b.name === 'Safari' && b.realMobile) throw new Error('Safari mobile fail'); 
+      // if (b.name === 'Safari' && b.realMobile) throw new Error('Safari mobile fail'); 
     } catch (err) {
       console.error(`❌ ${b.name} test failed: ${err.message}`);
       process.exitCode = 1;

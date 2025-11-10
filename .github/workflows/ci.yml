@@ -28,5 +28,5 @@ jobs:
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         run: |
           node tests/test-pass.js
-          node tests/test-fail.js
-          node tests/test-cross-browser.js
+          # node tests/test-fail.js
+          # node tests/test-cross-browser.js

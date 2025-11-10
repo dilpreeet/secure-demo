@@ -13,5 +13,8 @@
     "browserstack-local": "^1.5.8",
     "mocha": "^11.7.5",
     "selenium-webdriver": "^4.38.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }

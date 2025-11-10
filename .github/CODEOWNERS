@@ -1,0 +1,4 @@
+# CODEOWNERS file
+
+# Path pattern - owner(s)
+api/* @dilpreeet  #backend team ID

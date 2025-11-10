@@ -1,0 +1,469 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TMMi Maturity Ladder — On-Screen Actions (No Audio)</title>
+  <style>
+    :root{--bg:#071029;--card:#0b1220;--accent:#38bdf8;--muted:#94a3b8;--glass: rgba(255,255,255,0.03);--dur:1000ms;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071029 0%, #071430 60%);color:#e6eef6}
+    .app{max-width:1200px;margin:18px auto;padding:18px}
+    header{display:flex;gap:12px;align-items:center}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .stage{display:flex;gap:18px;margin-top:18px}
+    .ladder-wrap{width:360px;position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:16px;border-radius:12px}
+    .ladder{position:relative;padding:14px 10px 30px 10px;height:520px;overflow:hidden}
+    .rung{position:absolute;left:60px;right:40px;height:64px;display:flex;align-items:center;gap:12px;border-radius:10px;background:var(--glass);transform-origin:center;transition:all 900ms cubic-bezier(.2,.9,.3,1)}
+    .rung .icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0.28;transition:all 600ms}
+    .rung .label{flex:1;font-size:14px;color:var(--muted);line-height:1.2}
+    .rung[data-level="1"]{top:20px}
+    .rung[data-level="2"]{top:120px}
+    .rung[data-level="3"]{top:220px}
+    .rung[data-level="4"]{top:320px}
+    .rung[data-level="5"]{top:420px}
+    .rung.active{background:linear-gradient(90deg, rgba(56,189,248,0.12), rgba(56,189,248,0.04));box-shadow:0 8px 28px rgba(8,34,64,0.6);transform:translateX(-10px) scale(1.02)}
+    .rung.active .icon{opacity:1;transform:scale(1.06)}
+    .rung.active .label{color:#eaf8ff;font-weight:700}
+    .ladder-inner{transition:transform 1200ms cubic-bezier(.2,.9,.3,1)}
+    .cards-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:14px;border-radius:10px;min-height:76px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 16px rgba(2,6,23,0.45)}
+    .card h3{margin:0;font-size:15px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .split{display:flex;gap:12px;margin-top:8px}
+    .panel{flex:1;padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.01));min-height:120px;display:flex;flex-direction:column}
+    .chaos{color:#ffb4b4}
+    .order{color:#b8ffd6}
+    .metrics{display:flex;gap:10px;align-items:center}
+    .stat{flex:1;padding:8px;background:rgba(255,255,255,0.02);border-radius:8px;font-size:12px;text-align:center}
+    .controls{display:flex;gap:8px;margin-top:10px}
+    button{background:rgba(255,255,255,0.03);color:#dff5ff;border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;cursor:pointer}
+    .final{display:none;align-items:center;justify-content:center;height:140px;border-radius:10px;margin-top:12px;background:linear-gradient(90deg, rgba(8,34,64,0.7), rgba(2,6,23,0.6));box-shadow:0 12px 40px rgba(2,6,23,0.7)}
+    .final h2{margin:0}
+    @media(max-width:980px){.stage{flex-direction:column}.ladder-wrap{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>TMMi Maturity — On-Screen Actions (No Audio)</h1>
+        <p class="lead">Click Play to run the timed on-screen actions. Use a screen recorder and narrate along while the UI plays the matched actions.</p>
+      </div>
+    </header>
+
+    <div class="stage">
+      <div class="ladder-wrap">
+        <div class="ladder" id="ladder">
+          <div class="ladder-inner" id="ladderInner">
+            <div class="rung" data-level="5"><div class="icon">🔁</div><div class="label">Level 5 – Optimizing & Continuous Improvement</div></div>
+            <div class="rung" data-level="4"><div class="icon">📊</div><div class="label">Level 4 – Measured & Predictable</div></div>
+            <div class="rung" data-level="3"><div class="icon">🏢</div><div class="label">Level 3 – Defined process | Integrated training | Peer reviews</div></div>
+            <div class="rung" data-level="2"><div class="icon">👥</div><div class="label">Level 2 – Policy & Planning | Controlled execution</div></div>
+            <div class="rung" data-level="1"><div class="icon">👤</div><div class="label">Level 1 – Ad hoc testing | Unrepeatable | Reactive</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards-wrap">
+        <div id="levelCard" class="card"><div style="flex:1"><h3>—</h3><p>—</p></div></div>
+
+        <div class="split">
+          <div class="panel chaos">
+            <strong>Before TMMi</strong>
+            <div style="font-size:12px;color:var(--muted);">Bugs found late • Hotfixes • Missed deadlines</div>
+            <div style="display:flex; gap:6px; margin-top:auto">
+              <div style="font-size:28px">🐞🐞🐞</div>
+              <div style="flex:1; font-size:12px; color:var(--muted)">Teams firefighting, reactive tests</div>
+            </div>
+          </div>
+          <div class="panel order">
+            <strong>After TMMi</strong>
+            <div style="font-size:12px;color:var(--muted);">Dashboards • Unified workflows • Predictable releases</div>
+            <div style="display:flex; gap:6px; margin-top:auto; align-items:center">
+              <div style="font-size:28px">📈✅</div>
+              <div style="flex:1; font-size:12px; color:var(--muted)">Data-driven decisions, lower leakage</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="dashboardCard">
+          <div style="flex:1">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <strong>Metrics</strong>
+              <small style="color:var(--muted)">Defect leakage ↓ | Release velocity ↑</small>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:8px; align-items:center">
+              <div class="stat"><div style="font-size:20px" id="leakNum">--</div><div style="font-size:11px;color:var(--muted)">Defect Leakage</div></div>
+              <div class="stat"><div style="font-size:20px" id="velNum">--</div><div style="font-size:11px;color:var(--muted)">Release Velocity</div></div>
+              <canvas id="miniChart" width="220" height="80"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="playBtn">▶ Play On-Screen Actions</button>
+          <button id="stopBtn">■ Stop</button>
+          <button id="resetBtn">⟲ Reset</button>
+        </div>
+
+        <div class="final" id="finalMsg"><h2>TMMi — Build quality that scales with your organization.</h2></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Narration segments (timings are mapped to each spoken segment) — use these to narrate live while recording
+    const narrationSegments = [
+      {id:'intro', dur:3000},
+      {id:'lvl1', dur:6500},
+      {id:'lvl2', dur:7000},
+      {id:'lvl3', dur:7500},
+      {id:'lvl45', dur:6000},
+      {id:'close', dur:6000}
+    ];
+
+    const rungs = Array.from(document.querySelectorAll('.rung')).reverse(); // index 0 = Level1
+    const levelCard = document.getElementById('levelCard');
+    const leakNum = document.getElementById('leakNum');
+    const velNum = document.getElementById('velNum');
+    const finalMsg = document.getElementById('finalMsg');
+    const ladderInner = document.getElementById('ladderInner');
+
+    // Chart setup
+    const ctx = document.getElementById('miniChart').getContext('2d');
+    const miniChart = new Chart(ctx, { type:'line', data:{labels:['T-4','T-3','T-2','T-1','Now'], datasets:[{label:'Defect leakage', data:[72,60,48,40,34], fill:true, tension:0.4, borderWidth:2}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}}} });
+
+    let timers = [];
+    function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; }
+
+    function resetAll(){
+      clearTimers();
+      rungs.forEach(r=> r.classList.remove('active'));
+      levelCard.querySelector('h3').innerText = '—'; levelCard.querySelector('p').innerText='—';
+      leakNum.innerText='--'; velNum.innerText='--';
+      miniChart.data.datasets[0].data = [72,60,48,40,34]; miniChart.update();
+      finalMsg.style.display='none'; ladderInner.style.transform='translateY(0)';
+    }
+
+    resetAll();
+
+    function highlightLevel(level){
+      rungs.forEach((r,idx)=> r.classList.toggle('active', idx===level-1));
+      const src = Array.from(document.querySelectorAll('.rung')).find(r=> +r.dataset.level===level);
+      if(src){
+        const label = src.querySelector('.label').innerText.split('–');
+        levelCard.querySelector('h3').innerText = 'Level '+level + ' – ' + (label[1]?label[1].trim():label[0]);
+        levelCard.querySelector('p').innerText = src.querySelector('.label').innerText.split('–').slice(1).join('–').trim();
+      }
+    }
+
+    function runActionsTimed(){
+      resetAll();
+      let t = 0;
+      // intro (no highlight)
+      t += narrationSegments[0].dur;
+
+      // Level 1
+      timers.push(setTimeout(()=>{ highlightLevel(1); ladderInner.style.transform='translateY(0px)'; leakNum.innerText='38%'; velNum.innerText='1.0x'; miniChart.data.datasets[0].data=[70,58,50,44,38]; miniChart.update(); }, t));
+      t += narrationSegments[1].dur;
+
+      // Level 2
+      timers.push(setTimeout(()=>{ highlightLevel(2); ladderInner.style.transform='translateY(-100px)'; leakNum.innerText='34%'; velNum.innerText='1.3x'; miniChart.data.datasets[0].data=[66,52,44,36,34]; miniChart.update(); }, t));
+      t += narrationSegments[2].dur;
+
+      // Level 3
+      timers.push(setTimeout(()=>{ highlightLevel(3); ladderInner.style.transform='translateY(-200px)'; leakNum.innerText='28%'; velNum.innerText='1.5x'; miniChart.data.datasets[0].data=[60,48,36,30,28]; miniChart.update(); }, t));
+      t += narrationSegments[3].dur;
+
+      // Level 4
+      timers.push(setTimeout(()=>{ highlightLevel(4); ladderInner.style.transform='translateY(-300px)'; leakNum.innerText='22%'; velNum.innerText='1.8x'; miniChart.data.datasets[0].data=[52,40,30,24,22]; miniChart.update(); }, t));
+      t += Math.round(narrationSegments[4].dur * 0.55);
+
+      // Level 5
+      timers.push(setTimeout(()=>{ highlightLevel(5); ladderInner.style.transform='translateY(-380px)'; leakNum.innerText='16%'; velNum.innerText='2.0x'; miniChart.data.datasets[0].data=[46,34,24,18,16]; miniChart.update(); }, t));
+      t += Math.round(narrationSegments[4].dur * 0.45);
+
+      // Scenario split-screen emphasis
+      timers.push(setTimeout(()=>{ const panels = document.querySelectorAll('.panel'); panels[0].style.transform='translateX(-8px) scale(0.98)'; panels[1].style.transform='translateX(8px) scale(1.02)'; }, t));
+      t += 2200;
+      timers.push(setTimeout(()=>{ const panels = document.querySelectorAll('.panel'); panels[0].style.transform=''; panels[1].style.transform=''; }, t));
+
+      // Zoom into dashboard
+      timers.push(setTimeout(()=>{ const dash = document.getElementById('dashboardCard'); dash.style.transition='transform 900ms'; dash.style.transform='scale(1.12) translateY(-6px)'; leakNum.innerText='14%'; velNum.innerText='2.2x'; miniChart.data.datasets[0].data=[40,30,22,16,14]; miniChart.update(); }, t));
+      t += 2400;
+      timers.push(setTimeout(()=>{ document.getElementById('dashboardCard').style.transform=''; }, t));
+
+      // Final overlay
+      timers.push(setTimeout(()=>{ finalMsg.style.display='flex'; finalMsg.style.opacity=0; finalMsg.style.transition='opacity 800ms'; setTimeout(()=> finalMsg.style.opacity=1,20); }, t));
+    }
+
+    document.getElementById('playBtn').addEventListener('click', ()=>{ clearTimers(); runActionsTimed(); });
+    document.getElementById('stopBtn').addEventListener('click', ()=>{ clearTimers(); });
+    document.getElementById('resetBtn').addEventListener('click', ()=> resetAll());
+
+    // keyboard: space to toggle play/stop
+    let playing = false;
+    window.addEventListener('keydown', (e)=>{ if(e.code==='Space'){ e.preventDefault(); if(!playing){ document.getElementById('playBtn').click(); playing=true } else { document.getElementById('stopBtn').click(); playing=false } } });
+  </script>
+</body>
+</html> -->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TMMi Maturity Animation — Stepwise Version</title>
+  <style>
+    :root {
+      --bg:#071029;--card:#0b1220;--accent:#38bdf8;--muted:#94a3b8;--glass: rgba(255,255,255,0.03);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    }
+    html,body {
+      height:100%; margin:0;
+      background:linear-gradient(180deg,#071029 0%, #071430 60%);
+      color:#e6eef6; overflow:hidden;
+    }
+    .app {
+      max-width:1200px; margin:auto; padding:18px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;
+    }
+    h1 { font-size:22px; margin-bottom:4px; text-align:center; }
+    p.lead { margin:0 0 20px; color:var(--muted); font-size:13px; text-align:center; }
+
+    .ladder-wrap {
+      width:360px; position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:16px; border-radius:12px;
+    }
+    .ladder { position:relative; padding:14px 10px 30px; height:520px; overflow:hidden; }
+    .rung {
+      position:absolute; left:60px; right:40px; height:64px;
+      display:flex; align-items:center; gap:12px;
+      border-radius:10px; background:var(--glass);
+      transition:all 800ms cubic-bezier(.2,.9,.3,1);
+    }
+    .rung .icon { width:54px; height:54px; display:flex; align-items:center; justify-content:center;
+      font-size:20px; opacity:0.28; transition:all 600ms; }
+    .rung .label { flex:1; font-size:14px; color:var(--muted); line-height:1.2; }
+    .rung[data-level="1"]{top:20px}
+    .rung[data-level="2"]{top:120px}
+    .rung[data-level="3"]{top:220px}
+    .rung[data-level="4"]{top:320px}
+    .rung[data-level="5"]{top:420px}
+    .rung.active {
+      background:linear-gradient(90deg, rgba(56,189,248,0.12), rgba(56,189,248,0.04));
+      box-shadow:0 8px 28px rgba(8,34,64,0.6);
+      transform:translateX(-10px) scale(1.02);
+    }
+    .rung.active .icon { opacity:1; transform:scale(1.06); }
+    .rung.active .label { color:#eaf8ff; font-weight:700; }
+
+    .cards-wrap { flex:1; display:flex; flex-direction:column; gap:12px; align-items:center; width:100%; }
+    .card {
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:14px; border-radius:10px; min-height:76px;
+      display:flex; align-items:center; gap:12px;
+      box-shadow:0 6px 16px rgba(2,6,23,0.45); width:70%;
+    }
+    .card h3{margin:0;font-size:15px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+
+    .split { display:flex; gap:12px; margin-top:8px; justify-content:center; }
+    .panel {
+      flex:1; padding:12px; border-radius:8px;
+      background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.01));
+      min-height:120px; display:flex; flex-direction:column; width:40%;
+    }
+    .chaos{color:#ffb4b4}
+    .order{color:#b8ffd6}
+
+    .controls {
+      display:flex; gap:8px; margin-top:20px; justify-content:center;
+    }
+    button {
+      background:rgba(255,255,255,0.03); color:#dff5ff;
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px 12px; border-radius:8px; cursor:pointer;
+    }
+
+    .final {
+      display:none; align-items:center; justify-content:center;
+      height:140px; border-radius:10px; margin-top:12px;
+      background:linear-gradient(90deg, rgba(8,34,64,0.7), rgba(2,6,23,0.6));
+      box-shadow:0 12px 40px rgba(2,6,23,0.7);
+    }
+    .final h2{margin:0;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>TMMi Levels 1 to 5</h1>
+    <!-- <p class="lead">Automatic highlight of Levels 1–5 starts after 5 seconds.</p> -->
+
+    <div id="ladderStep" class="ladder-wrap">
+      <div class="ladder">
+        <div class="rung" data-level="1"><div class="icon">👤</div><div class="label">Level 1 – Ad hoc testing | Unrepeatable | Reactive</div></div>
+        <div class="rung" data-level="2"><div class="icon">👥</div><div class="label">Level 2 – Policy & Planning | Controlled execution</div></div>
+        <div class="rung" data-level="3"><div class="icon">🏢</div><div class="label">Level 3 – Defined process | Integrated training | Peer reviews</div></div>
+        <div class="rung" data-level="4"><div class="icon">📊</div><div class="label">Level 4 – Measured & Predictable</div></div>
+        <div class="rung" data-level="5"><div class="icon">🔁</div><div class="label">Level 5 – Optimizing & Continuous Improvement</div></div>
+      </div>
+    </div>
+
+    <div class="cards-wrap">
+      <div class="split" id="scenarioStep" style="display:none">
+        <div class="panel chaos">
+          <strong>Before TMMi</strong>
+          <div style="font-size:12px;color:var(--muted);">Bugs • Hotfixes • Missed deadlines</div>
+          <div style="margin-top:auto;font-size:28px">🐞🐞🐞</div>
+        </div>
+        <div class="panel order">
+          <strong>After TMMi</strong>
+          <div style="font-size:12px;color:var(--muted);">Dashboards • Unified workflows • Predictable releases</div>
+          <div style="margin-top:auto;font-size:28px">📈✅</div>
+        </div>
+      </div>
+
+      <div class="card" id="dashboardStep" style="display:none">
+        <div style="flex:1">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+            <strong>Metrics</strong>
+            <small style="color:var(--muted)">Defect leakage ↓ | Release velocity ↑</small>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:8px; align-items:center">
+            <div class="stat">
+                <div style="font-size:20px" id="leakNum">--</div>
+                <div style="font-size:11px;color:var(--muted)">Defect Leakage</div>
+            </div>
+            <div class="stat">
+                <div style="font-size:20px" id="velNum">--</div>
+                <div style="font-size:11px;color:var(--muted)">Release Velocity</div>
+            </div>
+            <canvas id="miniChart" width="220" height="80"></canvas>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="final" id="finalStep"><h2>TMMi — Build quality that scales with your organization.</h2></div>
+
+      <div class="controls" id="navButtons" style="display:none;">
+        <button id="prevBtn">⬅ Prev</button>
+        <button id="nextBtn">Next ➡</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const steps = ['ladder', 'scenario', 'dashboard', 'final'];
+  let current = 0;
+  const rungEls = document.querySelectorAll('.rung');
+  const scenario = document.getElementById('scenarioStep');
+  const dashboard = document.getElementById('dashboardStep');
+  const final = document.getElementById('finalStep');
+
+  function showStep(){
+    document.querySelector('.ladder-wrap').style.display = current===0 ? 'block':'none';
+    scenario.style.display = current===1 ? 'flex':'none';
+    dashboard.style.display = current===2 ? 'block':'none';
+    final.style.display = current===3 ? 'flex':'none';
+  }
+
+  function highlightSequence(){
+    const highlightInterval = 10000; // 7 seconds per level
+    const startDelay = 2000; // wait 5 seconds before starting
+
+    setTimeout(()=>{
+      let i = 0;
+      const interval = setInterval(()=>{
+        if(i < rungEls.length){
+          rungEls.forEach(r=>r.classList.remove('active'));
+          rungEls[i].classList.add('active');
+          i++;
+        } else {
+          clearInterval(interval);
+          // Move to next step after 5s pause
+          setTimeout(()=>goToNextStep(), 4000);
+        }
+      }, highlightInterval);
+    }, startDelay);
+  }
+
+  function goToNextStep(){
+    if(current < steps.length - 1){
+      current++;
+      showStep();
+
+      if(current === 2) initChart(); // Step 3 = dashboard chart
+
+      // Auto-advance to next step after 5 seconds
+      if(current < steps.length - 1){
+        setTimeout(()=>goToNextStep(), 4000);
+      }
+    }
+  }
+
+  // Dashboard chart animation
+  function initChart(){
+    const ctx = document.getElementById('miniChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Q1','Q2','Q3','Q4'],
+        datasets: [{
+          label: 'Defect Leakage (%)',
+          data: [32, 24, 18, 14],
+          borderColor: '#f87171',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.4
+        },{
+          label: 'Release Velocity (x)',
+          data: [1, 1.4, 1.8, 2.2],
+          borderColor: '#34d399',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.4
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        },
+        animation: { duration: 4000 }
+      }
+    });
+
+    // Number counters
+    animateNumbers();
+  }
+
+  function animateNumbers(){
+    let leak = 32, vel = 1.0;
+    const leakEl = document.getElementById('leakNum');
+    const velEl = document.getElementById('velNum');
+    const interval = setInterval(()=>{
+      leak -= 1;
+      vel += 0.05;
+      leakEl.textContent = leak.toFixed(0) + '%';
+      velEl.textContent = vel.toFixed(1) + 'x';
+      if(leak <= 14){ clearInterval(interval); }
+    }, 200);
+  }
+
+  // Start
+  showStep();
+  highlightSequence();
+</script>
+
+
+</body>
+</html>
+

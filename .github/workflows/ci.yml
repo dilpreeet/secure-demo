@@ -2,9 +2,9 @@ name: Test Gating Demo
 
 on:
   push:
-    branches: [ main ]
+    branches: [ c_41_L3 ]
   pull_request:
-    branches: [ main ]
+    branches: [ c_41_L3 ]
 
 jobs:
   test:
